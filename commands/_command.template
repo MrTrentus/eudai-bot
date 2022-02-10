@@ -1,0 +1,16 @@
+module.exports =  {
+    name: 'name',
+    aliases: ['alias'],
+    description: 'Announcement time!',
+    usage: 'name [args]',
+    complete: false,
+    category: 'Category',
+    requiredPermissions: [],
+    execute: async (client, message, args) => {       
+        if (!message.member.permissions.has(this.requiredPermissions))
+            return message.reply(`You do not have permission to run the ${this.name} command`);
+        
+        // Delete the request message
+        await message.delete({ timeout: 3000 });
+    }
+}
