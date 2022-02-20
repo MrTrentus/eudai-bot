@@ -1,21 +1,18 @@
-// const mongoose = require('mongoose');
-// const Guild = require('../../models/guild');
+const mongoose = require('mongoose');
+const Guild = require('../../models/guild');
 
 module.exports = {
     name: 'guildDelete',
     description: 'Event triggered from deleting a guild (server)',
-    complete: false,
+    complete: true,
     once: false,
-    execute: async (message, client) => {
-        console.log('wip');
+    execute: async (guild, client) => {
+        console.log(`Left server: ${guild.name}(${guild.id})`);
+
+        await Guild.findOneAndDelete({ guildID: guild.id })
+            .then(console.log(`Deleted guild: ${guild.name}(${guild.id})`))
+            .catch((err) => {
+                console.log(`There was an error deleting guild: ${guild.name}(${guild.id}) : ${err}`);
+            });
     },
 };
-
-// module.exports = async (Discord, client, guild) => {
-//     // Guild.findOneAndDelete({
-//     //     guildID: guild.id
-//     // }, (err, res) => {
-//     //     if(err) console.error(err)
-//     //     console.log(`I have been removed from server: ${guild.name}`);
-//     // });
-// };
