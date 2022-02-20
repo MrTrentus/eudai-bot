@@ -50,6 +50,8 @@ async function getCMD(client, message, args) {
         });
     }
 
+   
+
     embed
         .setTitle(`Command: **${command.name}**`)
         .setDescription(`${command.description}`)
@@ -57,6 +59,7 @@ async function getCMD(client, message, args) {
             { name: '**Usage:**', value: `\`${client.prefix}${command.usage}\`` },
             {
                 name: '**Required Permissions:**',
+                // Need to fix this section to actually display the permissions required for effective permissions needed in plain text
                 value: `${command.requiredPermissions?.length ? command.requiredPermissions.map((perm) => `${perm.toArray()}`).join(', ') : 'none'}`,
             },
             { name: '**Category:**', value: `${command.category}`, inline: true },

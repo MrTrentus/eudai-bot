@@ -1,5 +1,5 @@
 const { Client, Intents, Collection } = require('discord.js');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -15,11 +15,11 @@ client.prefix = process.env.PREFIX;
 // client.commands.status = {};
 // client.events.status = {};
 client.embedColor = '#138999';
-// client.mongoose = require('./utils/mongoose');
+client.mongoose = require('./db/mongoose');
 // client.categories = ['admin', 'utility', 'info'];
 
 // Created a Handler for each "item" - event and command
-// This will look through the handlers and require them.
+// This will loop through the handlers and require them.
 // Each handler in return will require each of the subsequent commands or events
 
 //'command_handler',
@@ -27,5 +27,5 @@ client.embedColor = '#138999';
     require(`./handlers/${handler}`)(client);
 });
 
-// client.mongoose.init();
+client.mongoose.init();
 client.login(token);
