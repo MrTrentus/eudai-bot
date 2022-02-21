@@ -1,32 +1,34 @@
-const { MessageEmbed } = require('discord.js');
-const mongoose = require('mongoose');
 const Guild = require('../models/guild');
+const { Permissions } = require('discord.js');
+const { deleteMessage } = require('../utils/utils');
 
-module.exports =  {
+module.exports = {
     name: 'prefix',
     aliases: ['p'],
     description: 'Change a prefix',
     usage: 'prefix [new prefix]',
+    complete: false,
     category: 'utility',
-    execute: async (client, message, args, Discord) => {
-        message.delete();
+    requiredPermissions: [Permissions.FLAGS.MANAGE_GUILD],
+    execute: async (client, message, args) => {
+        if (!message.member.permissions.has(this.requiredPermissions))
+            return message.reply(`You do not have permission to run the ${this.name} command`);
 
-        if(!message.member.hasPermission('MANAGE_GUILD')){
-            return message.reply('You do not have permission to use this command, please contact a server adminitrator.').then(m => m.delete({timeout: 10000}));
-        };
+        if (args.length < 1) {
+            return message.reply('You must supply a new prefix!');
+        }
 
-        const settings = await Guild.findOne({
-            guildID: message.guild.id
+        // Delete the request message
+        deleteMessage(message);
+
+        const guild = await Guild.findOne({
+            guildID: message.guild.id,
         });
 
-        if(args.length < 1){
-            return message.channel.send('You must supply a new prefix!').then(m => m.delete({timeout: 10000}));
-        };
-
-        await settings.updateOne({
-            prefix: args[0]
+        await guild.updateOne({
+            prefix: args[0],
         });
 
-        return message.channel.send(`Your server prefix has been updated to \'${args[0]}\'`).then(m => m.delete({timeout: 10000}));
-    }
-}
+        return await message.channel.send(`Your server prefix has been updated to \`${args[0]}\``).then((m) => deleteMessage(m));
+    },
+};

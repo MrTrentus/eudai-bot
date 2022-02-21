@@ -1,3 +1,6 @@
+const { Permissions } = require('discord.js');
+const { deleteMessage } = require('../utils/utils');
+
 module.exports =  {
     name: 'name',
     aliases: ['alias'],
@@ -11,6 +14,6 @@ module.exports =  {
             return message.reply(`You do not have permission to run the ${this.name} command`);
         
         // Delete the request message
-        await message.delete({ timeout: 3000 });
+        deleteMessage(message);
     }
 }

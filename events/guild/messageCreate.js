@@ -18,8 +18,7 @@ module.exports = {
         if (!message.content.startsWith(client.prefix)) return;
 
         // If there is no member to the message, go fetch it
-        if (!message.member)
-            message.member = await message.guild.fetchMember(message);
+        if (!message.member) message.member = await message.guild.fetchMember(message);
 
         // Set the arguments for the command
         const args = message.content.slice(client.prefix.length).split(/ +/g);
@@ -50,7 +49,7 @@ async function fetchGuild(message) {
 
         return guild;
     } catch (error) {
-        console.log(`Error finding guild: ${guild}`);
+        console.log(`Error finding guild: ${error}`);
     }
 }
 
@@ -63,9 +62,7 @@ async function createGuild(message, client) {
         announceChannel: null,
     });
 
-    await guild
-        .save()
-        .catch((err) => console.log(`Error creating guild: ${err}`));
+    await guild.save().catch((err) => console.log(`Error creating guild: ${err}`));
 
     return fetchGuild(message);
 }
