@@ -18,9 +18,6 @@ module.exports = {
             return message.reply('You must supply a new prefix!');
         }
 
-        // Delete the request message
-        deleteMessage(message);
-
         const guild = await Guild.findOne({
             guildID: message.guild.id,
         });
@@ -29,6 +26,9 @@ module.exports = {
             prefix: args[0],
         });
 
-        return await message.channel.send(`Your server prefix has been updated to \`${args[0]}\``).then((m) => deleteMessage(m));
+        await message.channel.send(`Your server prefix has been updated to \`${args[0]}\``).then((m) => deleteMessage(m));
+
+        // Delete the request message
+        deleteMessage(message);
     },
 };

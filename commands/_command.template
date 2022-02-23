@@ -9,11 +9,16 @@ module.exports =  {
     complete: false,
     category: 'Category',
     requiredPermissions: [],
-    execute: async (client, message, args) => {       
-        if (!message.member.permissions.has(this.requiredPermissions))
-            return message.reply(`You do not have permission to run the ${this.name} command`);
-        
-        // Delete the request message
-        deleteMessage(message);
+    execute: async (client, message, args) => {      
+        try {
+            if (!message.member.permissions.has(this.requiredPermissions))
+                return message.reply(`You do not have permission to run the ${this.name} command`);
+            
+            // Delete the request message
+            deleteMessage(message);
+            
+        } catch (error) {
+            await message.reply(`There was an error with the ${this.name} command, please try again later.`);
+        } 
     }
 }
