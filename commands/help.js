@@ -1,6 +1,6 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Permissions } = require('discord.js');
+const { deleteMessage } = require('../utils/utils');
 // const Guild = require('../models/guild');
-// const mongoose = require('mongoose');
 
 module.exports = {
     name: 'help',
@@ -9,11 +9,23 @@ module.exports = {
     usage: 'help [command]',
     complete: false,
     category: 'utility',
+    requiredPermissions: [],
     execute: async (client, message, args) => {
-        if (args[0]) {
-            return await getCMD(client, message, args[0]);
-        } else {
-            return await helpMSG(client, message);
+        try {
+            if (!message.member.permissions.has(this.requiredPermissions))
+                return message.reply(`You do not have permission to run the ${this.name} command`);
+
+            if (args[0]) {
+                await getCMD(client, message, args[0]);
+            } else {
+                await helpMSG(client, message);
+            }
+
+            // Delete the request message
+            deleteMessage(message);
+        } catch (error) {
+            console.log(`Error running help command: ${error}`);
+            await message.reply(`There was an error with the command, please try again later.`);
         }
     },
 };
@@ -50,18 +62,18 @@ async function getCMD(client, message, args) {
         });
     }
 
-   
-
     embed
         .setTitle(`Command: **${command.name}**`)
         .setDescription(`${command.description}`)
         .addFields(
             { name: '**Usage:**', value: `\`${client.prefix}${command.usage}\`` },
-            {
-                name: '**Required Permissions:**',
-                // Need to fix this section to actually display the permissions required for effective permissions needed in plain text
-                value: `${command.requiredPermissions?.length ? command.requiredPermissions.map((perm) => `${perm.toArray()}`).join(', ') : 'none'}`,
-            },
+            // {
+            //     name: '**Required Permissions:**',
+            //     // Need to fix this section to actually display the permissions required for effective permissions needed in plain text
+            //     value: `${
+            //         command.requiredPermissions?.length ? command.requiredPermissions.map((perm) => `${perm.toArray()}`).join(', ') : 'none'
+            //     }`,
+            // },
             { name: '**Category:**', value: `${command.category}`, inline: true },
             { name: '**Fully Functional:**', value: `${command.complete ? '✅' : '❌'}`, inline: true },
             {

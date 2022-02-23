@@ -18,6 +18,7 @@ module.exports =  {
             deleteMessage(message);
             
         } catch (error) {
+            console.log(`Error running ${this.name} command: ${error}`);
             await message.reply(`There was an error with the ${this.name} command, please try again later.`);
         } 
     }

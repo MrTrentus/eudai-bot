@@ -11,24 +11,29 @@ module.exports = {
     category: 'utility',
     requiredPermissions: [Permissions.FLAGS.MANAGE_GUILD],
     execute: async (client, message, args) => {
-        if (!message.member.permissions.has(this.requiredPermissions))
-            return message.reply(`You do not have permission to run the ${this.name} command`);
+        try {
+            if (!message.member.permissions.has(this.requiredPermissions))
+                return message.reply(`You do not have permission to run the ${this.name} command`);
 
-        if (args.length < 1) {
-            return message.reply('You must supply a new prefix!');
+            if (args.length < 1) {
+                return message.reply('You must supply a new prefix!');
+            }
+
+            const guild = await Guild.findOne({
+                guildID: message.guild.id,
+            });
+
+            await guild.updateOne({
+                prefix: args[0],
+            });
+
+            await message.channel.send(`Your server prefix has been updated to \`${args[0]}\``).then((m) => deleteMessage(m));
+
+            // Delete the request message
+            deleteMessage(message);
+        } catch (error) {
+            console.log(`Error running prefix command: ${error}`);
+            await message.reply(`There was an error with the command, please try again later.`);
         }
-
-        const guild = await Guild.findOne({
-            guildID: message.guild.id,
-        });
-
-        await guild.updateOne({
-            prefix: args[0],
-        });
-
-        await message.channel.send(`Your server prefix has been updated to \`${args[0]}\``).then((m) => deleteMessage(m));
-
-        // Delete the request message
-        deleteMessage(message);
     },
 };
