@@ -25,7 +25,7 @@ module.exports = {
         if (!message.member) message.member = await message.guild.fetchMember(message);
 
         // Set the arguments for the command
-        const args = message.content.slice(client.prefix.length).split(/ +/g);
+        const args = message.content.slice(guild.prefix.length).split(/ +/g);
         const cmd = args.shift().toLowerCase();
 
         //If the command prefix is provided, but no command - return.
