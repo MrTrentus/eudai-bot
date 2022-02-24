@@ -9,7 +9,7 @@ module.exports = {
     complete: false,
     category: 'info',
     requiredPermissions: [],
-    execute: async (client, message, guild, args) => {
+    execute: async (client, message, args) => {
         const guild = await Guild.findOne({
             guildID: message.guild.id,
         });

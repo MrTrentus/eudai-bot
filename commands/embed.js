@@ -4,7 +4,7 @@ module.exports = {
     description: 'Creates Embeds',
     usage: 'embed [args]',
     category: 'info',
-    execute: async (client, message, guild, args) => {
+    execute: async (client, message, args) => {
         args.forEach((arg) => {
             console.log(`Argument: ${arg}`);
         });

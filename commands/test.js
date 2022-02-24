@@ -8,7 +8,7 @@ module.exports = {
     complete: true,
     category: 'test',
     requiredPermissions: [Permissions.FLAGS.ADMINISTRATOR],
-    execute: async (client, message, guild, args) => {
+    execute: async (client, message, args) => {
         if (!message.member.permissions.has(this.requiredPermissions))
             return message.reply('Please contact an admin, you do not have permission to run this command.');
 

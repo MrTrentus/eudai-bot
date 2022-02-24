@@ -14,8 +14,12 @@ module.exports = {
         // If there's no guild associated (aka, a DM) - ignore command
         if (!message.guildId) return;
 
+        // Check if the guild exists, and if not, create it.
+        let guild = await fetchGuild(message);
+        if (!guild) guild = await createGuild(message, client);
+
         // If the message doesn't start with the prefix, or mention the bot, ignore
-        if (!message.content.startsWith(client.prefix)) return;
+        if (!message.content.startsWith(guild.prefix)) return;
 
         // If there is no member to the message, go fetch it
         if (!message.member) message.member = await message.guild.fetchMember(message);
@@ -32,12 +36,8 @@ module.exports = {
         if (!command) command = client.commands.get(client.aliases.get(cmd));
         if (!command) return;
 
-        // Check if the guild exists, and if not, create it.
-        let guild = await fetchGuild(message);
-        if (!guild) guild = await createGuild(message, client);
-
         // Assuming all checks pass - execute the command
-        command.execute(client, message, guild, args);
+        command.execute(client, message, args);
     },
 };
 
