@@ -1,4 +1,5 @@
 const { Permissions } = require('discord.js');
+const { deleteMessage } = require('../utils/utils');
 
 module.exports = {
     name: 'clear',
@@ -10,8 +11,7 @@ module.exports = {
     requiredPermissions: [Permissions.FLAGS.MANAGE_MESSAGES],
     execute: async (client, message, args) => {
         try {
-            if (!message.member.permissions.has(this.requiredPermissions))
-                return message.reply('Please contact an admin, you do not have permission to run this command.');
+            if (!message.member.permissions.has(this.requiredPermissions)) return message.reply('Please contact an admin, you do not have permission to run this command.');
 
             // Make sure that the argument sent is a number, and is between 1 and 100
             if (!args[0]) return message.reply('This function requires an integer input from 1-100');
@@ -22,9 +22,6 @@ module.exports = {
 
             const amount = args[0];
 
-            // Delete the request message
-            await message.delete({ timeout: 3000 });
-
             // Fetch all messages in the channel up to the limit
             const req = await message.channel.messages.fetch({ limit: amount });
             const messages = await req.toJSON();
@@ -32,10 +29,10 @@ module.exports = {
             // Bulk delete any messages < 14 days old
             await message.channel.bulkDelete(messages, true);
 
-            console.log(
-                `${message.author.username}#${message.author.discriminator} deleted ${amount} messages from server: ${message.guild.name}`
-            );
+            console.log(`${message.author.username}#${message.author.discriminator} deleted ${amount} messages from server: ${message.guild.name}`);
 
+            // Delete the request message
+            deleteMessage(message);
             // !TODO: This will have to wait, but eventually allow a "force" option to over-ride the 14 day rule and delete 1 by 1
             // // If the user decides to "force" the call with flag `-force`
             // if (args[1] && args[1].toString() === '-force') {

@@ -7,7 +7,7 @@ module.exports = {
     description: 'Event triggered off of message creation',
     complete: true,
     once: false,
-    async execute(message, client) {
+    execute: async (message, client) => {
         // If the user is a bot - ignore the message:
         if (message.author.bot) return;
 

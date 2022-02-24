@@ -9,11 +9,10 @@ module.exports = {
     usage: 'help [command]',
     complete: false,
     category: 'utility',
-    requiredPermissions: [],
+    requiredPermissions: [Permissions.FLAGS.SEND_MESSAGES],
     execute: async (client, message, args) => {
         try {
-            if (!message.member.permissions.has(this.requiredPermissions))
-                return message.reply(`You do not have permission to run the ${this.name} command`);
+            if (!message.member.permissions.has(this.requiredPermissions)) return message.reply(`You do not have permission to run the ${this.name} command`);
 
             if (args[0]) {
                 await getCMD(client, message, args[0]);

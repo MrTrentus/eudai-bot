@@ -1,5 +1,6 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Permissions } = require('discord.js');
 const { stripIndents } = require('common-tags');
+const { deleteMessage } = require('../utils/utils');
 
 module.exports = {
     name: 'commands',

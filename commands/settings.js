@@ -9,8 +9,7 @@ module.exports = {
     category: 'admin',
     requiredPermissions: [Permissions.FLAGS.ADMINISTRATOR],
     execute: async (client, message, args) => {
-        if (!message.member.permissions.has(this.requiredPermissions))
-            return message.reply('Please contact an admin, you do not have permission to run this command.');
+        if (!message.member.permissions.has(this.requiredPermissions)) return message.reply('Please contact an admin, you do not have permission to run this command.');
 
         // Delete the request message
         await message.delete({ timeout: 3000 });

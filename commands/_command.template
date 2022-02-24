@@ -1,5 +1,6 @@
+const Guild = require('../models/guild');
 const { Permissions } = require('discord.js');
-const { deleteMessage } = require('../utils/utils');
+const { deleteMessage } = require('../utils/utils')
 
 module.exports =  {
     name: 'name',

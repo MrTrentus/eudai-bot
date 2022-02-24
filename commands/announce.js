@@ -1,5 +1,6 @@
 const Guild = require('../models/guild');
-const mongoose = require('mongoose');
+const { Permissions } = require('discord.js');
+const { deleteMessage } = require('../utils/utils');
 
 module.exports = {
     name: 'announce',
@@ -8,8 +9,9 @@ module.exports = {
     usage: 'announce <message here>',
     complete: false,
     category: 'info',
-    requiredPermissions: [],
+    requiredPermissions: [Permissions.FLAGS.MANAGE_GUILD],
     execute: async (client, message, args) => {
+        // Fetch the guild
         const guild = await Guild.findOne({
             guildID: message.guild.id,
         });
@@ -18,11 +20,7 @@ module.exports = {
         if (ch) {
             ch.send(args.join(' '));
         } else {
-            message.channel
-                .send(
-                    `There doesn't seem to be an announcement channel currently set. Please set one with \`.setchannel announce #channel\``
-                )
-                .then((m) => m.delete({ timeout: 10000 }));
+            message.channel.send(`There doesn't seem to be an announcement channel currently set. Please set one with \`${guild.prefix}setchannel announce #channel\``);
         }
     },
 };

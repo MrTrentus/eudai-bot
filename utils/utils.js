@@ -1,5 +1,5 @@
 module.exports = {
-    deleteMessage: async (message, timeout = 10000) => {
+    deleteMessage: async (message, timeout = 5000) => {
         setTimeout(() => {
             message.delete();
         }, timeout);

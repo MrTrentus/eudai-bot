@@ -9,8 +9,7 @@ module.exports = {
     category: 'admin',
     requiredPermissions: [Permissions.FLAGS.MANAGE_GUILD],
     execute: async (client, message, args) => {
-        if (!message.member.permissions.has(this.requiredPermissions))
-            return message.reply('Please contact an admin, you do not have permission to run this command.');
+        if (!message.member.permissions.has(this.requiredPermissions)) return message.reply('Please contact an admin, you do not have permission to run this command.');
 
         // Set Command Vars for Embed
         const commandNames = client.commands.reduce((acc, cmd) => acc + `${cmd.name}\n`, '');

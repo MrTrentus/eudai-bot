@@ -12,8 +12,7 @@ module.exports = {
     requiredPermissions: [Permissions.FLAGS.MANAGE_GUILD],
     execute: async (client, message, args) => {
         try {
-            if (!message.member.permissions.has(this.requiredPermissions))
-                return message.reply(`You do not have permission to run the ${this.name} command`);
+            if (!message.member.permissions.has(this.requiredPermissions)) return message.reply(`You do not have permission to run the ${this.name} command`);
 
             if (args.length < 1) {
                 return message.reply('You must supply a new prefix!');
