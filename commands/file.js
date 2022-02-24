@@ -8,7 +8,7 @@ module.exports = {
     complete: true,
     category: 'utility',
     requiredPermissions: [],
-    execute: async (client, message, args) => {
+    execute: async (client, message, guild, args) => {
         if (!message.member.permissions.has(this.requiredPermissions))
             return message.reply(`You do not have permission to run the ${this.name} command`);
 

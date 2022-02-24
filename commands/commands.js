@@ -9,8 +9,9 @@ module.exports = {
     complete: true,
     category: 'info',
     requiredPermissions: [],
-    execute: async (client, message, args) => {
-        if (!message.member.permissions.has(this.requiredPermissions)) return message.reply('You do not have permission to run this command.');
+    execute: async (client, message, guild, args) => {
+        if (!message.member.permissions.has(this.requiredPermissions))
+            return message.reply('You do not have permission to run this command.');
 
         // Delete the request message
         await message.delete({ timeout: 3000 });
@@ -23,7 +24,9 @@ module.exports = {
         const embed = new MessageEmbed()
             .setColor(client.embedColor)
             .setTitle('Command List')
-            .setDescription('Use `' + `${client.prefix}help <commandName>\` without the \`<>\` to see more information about a specific command.\n\n`)
+            .setDescription(
+                'Use `' + `${client.prefix}help <commandName>\` without the \`<>\` to see more information about a specific command.\n\n`
+            )
             .addFields(
                 { name: 'Command', value: commandNames, inline: true },
                 { name: 'Category', value: commandCategories, inline: true },

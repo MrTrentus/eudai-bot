@@ -8,7 +8,7 @@ module.exports = {
     complete: false,
     category: 'utility',
     requiredPermissions: [Permissions.FLAGS.MANAGE_MESSAGES],
-    execute: async (client, message, args) => {
+    execute: async (client, message, guild, args) => {
         try {
             if (!message.member.permissions.has(this.requiredPermissions))
                 return message.reply('Please contact an admin, you do not have permission to run this command.');
@@ -32,7 +32,9 @@ module.exports = {
             // Bulk delete any messages < 14 days old
             await message.channel.bulkDelete(messages, true);
 
-            console.log(`${message.author.username}#${message.author.discriminator} deleted ${amount} messages from server: ${message.guild.name}`);
+            console.log(
+                `${message.author.username}#${message.author.discriminator} deleted ${amount} messages from server: ${message.guild.name}`
+            );
 
             // !TODO: This will have to wait, but eventually allow a "force" option to over-ride the 14 day rule and delete 1 by 1
             // // If the user decides to "force" the call with flag `-force`

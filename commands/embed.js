@@ -4,8 +4,8 @@ module.exports = {
     description: 'Creates Embeds',
     usage: 'embed [args]',
     category: 'info',
-    execute(client, message, args, Discord){
-        args.forEach(arg => {
+    execute: async (client, message, guild, args) => {
+        args.forEach((arg) => {
             console.log(`Argument: ${arg}`);
         });
 
@@ -19,5 +19,5 @@ module.exports = {
 
         // message.channel.send(newEmbed);
         // message.delete();
-    }
-}
+    },
+};

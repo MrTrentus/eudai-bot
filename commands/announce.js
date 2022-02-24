@@ -9,7 +9,7 @@ module.exports = {
     complete: false,
     category: 'info',
     requiredPermissions: [],
-    execute: async (client, message, args, Discord) => {
+    execute: async (client, message, guild, args) => {
         const guild = await Guild.findOne({
             guildID: message.guild.id,
         });
@@ -19,7 +19,9 @@ module.exports = {
             ch.send(args.join(' '));
         } else {
             message.channel
-                .send(`There doesn't seem to be an announcement channel currently set. Please set one with \`.setchannel announce #channel\``)
+                .send(
+                    `There doesn't seem to be an announcement channel currently set. Please set one with \`.setchannel announce #channel\``
+                )
                 .then((m) => m.delete({ timeout: 10000 }));
         }
     },
