@@ -37,7 +37,7 @@ module.exports = {
         if (!guild) guild = await createGuild(message, client);
 
         // Assuming all checks pass - execute the command
-        command.execute(client, message, args);
+        command.execute(client, message, guild, args);
     },
 };
 

@@ -14,6 +14,10 @@ module.exports =  {
             if (!message.member.permissions.has(this.requiredPermissions))
                 return message.reply(`You do not have permission to run the ${this.name} command`);
             
+            const guild = await Guild.findOne({
+                guildID: message.guild.id
+            });
+
             // Delete the request message
             deleteMessage(message);
             

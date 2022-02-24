@@ -19,10 +19,6 @@ module.exports = {
                 return message.reply('You must supply a new prefix!');
             }
 
-            const guild = await Guild.findOne({
-                guildID: message.guild.id,
-            });
-
             await guild.updateOne({
                 prefix: args[0],
             });
